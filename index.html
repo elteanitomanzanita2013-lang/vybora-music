@@ -3,292 +3,189 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VYBORA Music</title>
 <style>
-:root{--bg:#090910;--panel:#151522;--purple:#a855f7;--blue:#38bdf8;--muted:#a09fb5}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:white;font-family:Arial,sans-serif}
-button,input{font:inherit}
+:root{--bg:#090910;--panel:#141421;--purple:#9b5cff;--muted:#9999af}
+body{margin:0;background:var(--bg);color:white;font:15px Arial,sans-serif}
+.app{display:grid;grid-template-columns:210px 1fr;min-height:100vh;padding-bottom:95px}
+aside{background:#0d0d16;padding:25px 14px;border-right:1px solid #28283b}
+.logo{font-size:26px;font-weight:900;letter-spacing:3px;margin:5px 8px 35px}
+.logo span{color:var(--purple)}
+nav button{display:block;width:100%;text-align:left;padding:14px;border:0;border-radius:10px;background:none;color:#aaa;margin:5px 0;cursor:pointer}
+nav button:hover,nav button.active{background:#251b3a;color:white}
+main{padding:28px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:25px}
+.tag{color:var(--purple);font-size:12px;font-weight:bold;letter-spacing:2px}
+.hero{padding:28px;border-radius:18px;background:linear-gradient(120deg,#321653,#14223b,#10282e);margin-bottom:25px}
+h1{font-size:32px;margin:10px 0}
+.hero p{color:#ddd;line-height:1.5}
+.search{display:flex;gap:9px;margin-top:22px}
+input{min-width:0;width:100%;background:#10101c;color:white;border:1px solid #39394f;padding:14px;border-radius:10px;outline:none}
+input:focus{border-color:var(--purple)}
 button{cursor:pointer}
-.app{display:flex;min-height:100vh}
-aside{width:220px;flex-shrink:0;background:#0e0e18;padding:25px 15px;border-right:1px solid #28263a}
-.logo{font-size:29px;font-weight:900;letter-spacing:3px;background:linear-gradient(90deg,#c084fc,#38bdf8);color:transparent;background-clip:text}
-.tag{font-size:10px;color:var(--muted);letter-spacing:2px;margin:7px 0 32px}
-.label{font-size:10px;color:#77778e;letter-spacing:2px;margin:24px 10px 9px}
-.nav{display:block;width:100%;padding:13px;text-align:left;border:0;border-radius:10px;background:none;color:#bcbcd0;margin:3px 0}
-.nav:hover,.nav.active{background:#28183b;color:white}
-main{flex:1;min-width:0;padding:25px 28px 150px}
-.top{display:flex;gap:12px;align-items:center}
-#query{flex:1;min-width:0;background:var(--panel);border:1px solid #343148;border-radius:28px;padding:14px 18px;color:white}
-.btn{border:0;border-radius:25px;padding:12px 18px;color:white;background:linear-gradient(100deg,#a855f7,#5265ee)}
-.hero{margin-top:28px;padding:35px;border-radius:22px;border:1px solid #39274f;background:radial-gradient(ellipse at 90% 20%,#59318d,transparent 45%),linear-gradient(120deg,#1c142a,#10101d)}
-.hero small{color:#d0a8ff;letter-spacing:3px}
-h1{font-size:clamp(32px,5vw,52px);margin:15px 0}
-.hero p{color:#c6c1d8;line-height:1.6}
-.heading{display:flex;justify-content:space-between;align-items:center;margin:30px 0 17px;gap:10px}
-h2{font-size:21px;margin:0}
-.muted{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:15px}
-.card{background:var(--panel);border:1px solid #29273c;border-radius:15px;padding:12px;min-width:0}
-.cover{width:100%;aspect-ratio:1;background:linear-gradient(135deg,#542b80,#12506a);border-radius:10px;display:grid;place-items:center;font-size:42px}
-.card strong{display:block;font-size:14px;line-height:1.4;margin-top:12px;overflow-wrap:anywhere}
-.artist{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
-.actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:12px}
-.actions button,.pill{border:0;border-radius:20px;background:#30213f;color:white;padding:9px 12px}
-.actions .listen{background:#843fce}
-.heart{color:#ff8ba7!important}
-#playerWrap{margin-top:22px;background:#10101a;border:1px solid #302a43;border-radius:16px;padding:14px}
-#player{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000}
-.player{position:fixed;bottom:0;left:0;right:0;z-index:5;background:#11111bf5;border-top:1px solid #302d43;padding:14px 22px;display:flex;align-items:center;gap:14px}
-.playerInfo{flex:1;min-width:0}
-.playerInfo strong,.playerInfo span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.playerInfo span{color:var(--muted);font-size:12px;margin-top:5px}
-.player button{border:0;background:#fff;color:#111;border-radius:50%;width:42px;height:42px;font-size:18px}
-#status{color:var(--muted);font-size:13px;margin:15px 0}
-#playlistTools{display:flex;gap:8px;margin:15px 0}
-#playlistTools input{min-width:0;flex:1;background:#171522;border:1px solid #343148;border-radius:22px;padding:11px;color:white}
-#playlistList{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.hidden{display:none!important}
-@media(max-width:700px){
- aside{width:64px;padding:20px 6px}
- .logo{font-size:14px;letter-spacing:0;text-align:center}
- .tag,.label,.nav span{display:none}
- .nav{text-align:center;padding:13px 2px;font-size:18px}
- main{padding:15px 12px 145px}
- .hero{padding:24px 18px}
- .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .player{padding:10px 12px}
+.primary{border:0;border-radius:10px;padding:13px 18px;background:var(--purple);color:white;font-weight:bold}
+.secondary{border:1px solid #39394f;background:#222235;color:white;border-radius:9px;padding:9px 12px}
+h2{font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px}
+.card{background:var(--panel);border:1px solid #29293d;border-radius:14px;padding:12px;min-width:0}
+.cover{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;background:#242439}
+.card h3{font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.card p{font-size:12px;color:var(--muted);min-height:28px}
+.actions{display:flex;gap:6px}
+.actions button{flex:1}
+#playerBox{display:none;margin:20px 0;padding:14px;background:var(--panel);border-radius:15px}
+iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px}
+#youtubeSearch{width:100%;height:500px;border:0;border-radius:14px;background:#111}
+.note{color:var(--muted);font-size:12px;line-height:1.6}
+.empty{background:var(--panel);padding:22px;border-radius:12px;color:var(--muted);line-height:1.6}
+footer{position:fixed;bottom:0;left:0;right:0;background:#13131ff5;border-top:1px solid #303047;padding:15px 24px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+footer small{display:block;color:var(--muted);margin-top:5px}
+@media(max-width:650px){
+.app{grid-template-columns:1fr}aside{padding:12px;border-right:0;border-bottom:1px solid #28283b}
+.logo{font-size:20px;margin:0 0 12px}nav{display:flex;overflow:auto;gap:5px}
+nav button{white-space:nowrap;width:auto;padding:10px;font-size:12px}
+main{padding:16px}.hero{padding:20px}h1{font-size:26px}
+.search{flex-direction:column}footer{padding:12px 15px}
 }
 </style>
 </head>
 <body>
 <div class="app">
 <aside>
-  <div class="logo">VYBORA</div>
-  <div class="tag">FEEL EVERY FREQUENCY</div>
-  <div class="label">MENÚ</div>
-  <button class="nav active" data-view="home">⌂ <span>Inicio</span></button>
-  <button class="nav" data-view="search">⌕ <span>Buscar música</span></button>
-  <div class="label">TU MÚSICA</div>
-  <button class="nav" data-view="favorites">♡ <span>Favoritos</span></button>
-  <button class="nav" data-view="playlists">♫ <span>Playlists</span></button>
+<div class="logo">VYB<span>ORA</span></div>
+<nav>
+<button class="active" data-page="home">⌂ Inicio</button>
+<button data-page="search">⌕ Buscar</button>
+<button data-page="favorites">♡ Favoritos</button>
+<button data-page="library">♫ Biblioteca</button>
+</nav>
 </aside>
 
 <main>
-  <div class="top">
-    <input id="query" placeholder="Busca una canción o artista..." aria-label="Buscar canción">
-    <button class="btn" id="searchBtn">Buscar</button>
-  </div>
+<div class="top"><div><div class="tag">YOUR MUSIC WORLD</div><small style="color:#9999af">VYBORA MUSIC</small></div><span>♪</span></div>
 
-  <section class="hero" id="hero">
-    <small>TU UNIVERSO MUSICAL</small>
-    <h1>Tu música.<br>Tu mundo.</h1>
-    <p>Descubre canciones, encuentra artistas y disfruta de tus favoritos.</p>
-    <button class="btn" id="discover">Empezar a buscar</button>
-  </section>
+<section class="hero">
+<h1 id="heading">Tu música. Tu mundo.</h1>
+<p id="description">Encuentra artistas, explora canciones y crea tu propia biblioteca musical.</p>
+<div class="search">
+<input id="query" placeholder="Artista o canción..." autocomplete="off">
+<button class="primary" id="searchBtn">BUSCAR ↗</button>
+</div>
+</section>
 
-  <section id="playlistArea" class="hidden">
-    <div class="heading"><h2>Tus playlists</h2></div>
-    <div id="playlistTools">
-      <input id="playlistName" placeholder="Nombre de playlist">
-      <button class="btn" id="create">Crear</button>
-    </div>
-    <div id="playlistList"></div>
-  </section>
+<div id="content">
+<h2>Bienvenido a VYBORA</h2>
+<div class="empty">Busca tu artista favorito arriba. Puedes encontrar canciones y reproducirlas mediante YouTube sin iniciar sesión en VYBORA.</div>
+</div>
 
-  <div class="heading">
-    <h2 id="heading">Bienvenido a VYBORA</h2>
-    <span class="muted" id="count"></span>
-  </div>
-  <div id="status">Escribe un artista para comenzar.</div>
-  <div id="results" class="grid"></div>
-
-  <section id="playerWrap" class="hidden">
-    <div class="heading"><h2 id="playingTitle">Reproduciendo</h2></div>
-    <iframe id="player" title="Reproductor musical de YouTube"
-      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen></iframe>
-    <p class="muted">El vídeo se reproduce desde YouTube. Algunos vídeos pueden no permitir reproducción integrada.</p>
-  </section>
+<div id="playerBox">
+<h2 id="playingTitle">Reproduciendo</h2>
+<iframe id="player" title="Reproductor de YouTube" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+<p class="note">La reproducción depende de la disponibilidad del vídeo y de las restricciones de YouTube.</p>
+</div>
 </main>
 </div>
 
-<div class="player">
-  <div class="playerInfo">
-    <strong id="nowTitle">VYBORA MUSIC</strong>
-    <span id="nowArtist">Busca una canción para empezar</span>
-  </div>
-  <button id="openPlayer" title="Ir al reproductor">▶</button>
-</div>
+<footer>
+<div><strong id="footerTitle">VYBORA MUSIC</strong><small id="footerArtist">Tu música te espera</small></div>
+<div class="tag">VYBORA ♪</div>
+</footer>
 
 <script>
 const $=id=>document.getElementById(id);
-const STORE={
- favorites:"vybora-youtube-favorites",
- playlists:"vybora-youtube-playlists"
-};
-function read(key,fallback){
- try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}
-}
-function write(key,value){
- try{localStorage.setItem(key,JSON.stringify(value))}catch{}
+let results=[];
+let favorites=JSON.parse(localStorage.getItem("vyboraFav")||"[]");
+let library=JSON.parse(localStorage.getItem("vyboraLib")||"[]");
+let currentPage="home";
+
+function save(){
+ localStorage.setItem("vyboraFav",JSON.stringify(favorites));
+ localStorage.setItem("vyboraLib",JSON.stringify(library));
 }
 function esc(s){
- return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
-let view="home";
-let results=[];
-let favorites=read(STORE.favorites,[]);
-let playlists=read(STORE.playlists,[]);
-let selectedPlaylist=null;
-let playing=null;
-
-function setNav(){
- document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
+function search(){
+ const q=$("query").value.trim();
+ if(!q)return;
+ currentPage="search";
+ setActive("search");
+ $("heading").textContent="Buscando música";
+ $("description").textContent="Resultados para: "+q;
+ $("content").innerHTML='<h2>Canciones y artistas</h2><p class="note">Busca y reproduce música en este panel.</p><iframe id="youtubeSearch" title="Buscar música en YouTube" allow="encrypted-media; picture-in-picture" src="https://www.youtube.com/embed?listType=search&list='+encodeURIComponent(q)+'"></iframe><p class="note">Si el panel de búsqueda no está disponible, utiliza el botón de abajo.</p><button class="primary" id="fallback">Abrir búsqueda de música</button>';
+ $("fallback").onclick=()=>window.open("https://www.youtube.com/results?search_query="+encodeURIComponent(q),"_blank");
+ $("playerBox").style.display="none";
 }
-function showHome(){
- view="home";selectedPlaylist=null;
- $("hero").classList.remove("hidden");
- $("playlistArea").classList.add("hidden");
- $("heading").textContent="Descubre música";
- $("status").textContent="Busca cualquier artista o canción.";
- $("results").innerHTML="";
- $("count").textContent="";
- setNav();
+function setActive(page){
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
 }
-function render(){
- let list=results;
- if(view==="favorites")list=results.filter(t=>favorites.includes(t.id));
- if(view==="playlists"&&selectedPlaylist){
-  const p=playlists.find(x=>x.id===selectedPlaylist);
-  list=p?results.filter(t=>p.songs.includes(t.id)):[];
- }
- $("count").textContent=list.length+" resultados";
+function renderCards(list){
  if(!list.length){
-  $("results").innerHTML="";
-  $("status").textContent=view==="favorites"?"Aún no tienes favoritos.":view==="playlists"?"Elige una playlist o busca música para añadir canciones.":"Busca canciones en YouTube.";
+  $("content").innerHTML='<div class="empty">Todavía no tienes canciones guardadas aquí.</div>';
   return;
  }
- $("status").textContent="";
- $("results").innerHTML=list.map(t=>`
-  <article class="card">
-   <div class="cover">♫</div>
-   <strong>${esc(t.title)}</strong>
-   <div class="artist">${esc(t.channel||"YouTube")}</div>
-   <div class="actions">
-    <button class="listen" data-listen="${esc(t.id)}">▶ Escuchar</button>
-    <button class="${favorites.includes(t.id)?"heart":""}" data-like="${esc(t.id)}">${favorites.includes(t.id)?"♥":"♡"}</button>
-    <button data-add="${esc(t.id)}" title="Añadir a playlist">＋</button>
-   </div>
-   <div class="actions"><a class="muted" href="https://www.youtube.com/watch?v=${encodeURIComponent(t.id)}" target="_blank" rel="noopener">Abrir en YouTube ↗</a></div>
-  </article>`).join("");
-}
-function showSearch(){
- const q=$("query").value.trim();
- if(!q){$("status").textContent="Escribe un artista o canción arriba y pulsa Buscar.";return}
- view="search";selectedPlaylist=null;
- $("hero").classList.add("hidden");$("playlistArea").classList.add("hidden");
- $("heading").textContent="Buscar: "+q;
- $("status").textContent="Abriendo búsqueda de YouTube. Elige un vídeo musical y usa su opción Compartir para copiar el enlace.";
- $("results").innerHTML=`
+ $("content").innerHTML='<div class="grid">'+list.map(s=>`
  <article class="card">
-  <div class="cover">▶</div>
-  <strong>Resultados para ${esc(q)}</strong>
-  <div class="artist">Busca vídeos musicales oficiales y versiones completas disponibles.</div>
-  <div class="actions">
-   <a class="listen" style="text-decoration:none" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q+" official music video")}" target="_blank" rel="noopener">Buscar en YouTube ↗</a>
-  </div>
- </article>`;
- $("count").textContent="";
- setNav();
+ <img class="cover" src="${esc(s.image)}" alt="Portada">
+ <h3>${esc(s.title)}</h3><p>${esc(s.artist)}</p>
+ <div class="actions">
+ <button class="primary" data-play="${esc(s.id)}">▶</button>
+ <button class="secondary" data-fav="${esc(s.id)}">♡</button>
+ <button class="secondary" data-add="${esc(s.id)}">+</button>
+ </div></article>`).join("")+'</div>';
+ $("content").querySelectorAll("[data-play]").forEach(b=>b.onclick=()=>play(b.dataset.play));
+ $("content").querySelectorAll("[data-fav]").forEach(b=>b.onclick=()=>toggle(b.dataset.fav));
+ $("content").querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>add(b.dataset.add));
 }
-function playVideo(id,title,channel){
- playing={id,title,channel};
- $("playerWrap").classList.remove("hidden");
- $("player").src="https://www.youtube.com/embed/"+encodeURIComponent(id)+"?autoplay=1&playsinline=1&rel=0";
- $("playingTitle").textContent=title;
- $("nowTitle").textContent=title;
- $("nowArtist").textContent=channel||"YouTube";
- $("playerWrap").scrollIntoView({behavior:"smooth",block:"start"});
+function play(id){
+ const s=[...results,...favorites,...library].find(x=>x.id===id);
+ if(!s)return;
+ $("playerBox").style.display="block";
+ $("playingTitle").textContent=s.title;
+ $("footerTitle").textContent=s.title;
+ $("footerArtist").textContent=s.artist;
+ $("player").src="https://www.youtube.com/embed/"+encodeURIComponent(id)+"?autoplay=1&rel=0";
+ $("playerBox").scrollIntoView({behavior:"smooth",block:"nearest"});
 }
-function renderPlaylists(){
- $("playlistList").innerHTML=playlists.map(p=>`
-  <button class="pill" data-playlist="${esc(p.id)}">${esc(p.name)} (${p.songs.length})</button>
-  <button class="pill" data-remove="${esc(p.id)}">×</button>`).join("");
+function toggle(id){
+ const s=[...results,...favorites].find(x=>x.id===id);
+ if(!s)return;
+ favorites=favorites.some(x=>x.id===id)?favorites.filter(x=>x.id!==id):[...favorites,s];
+ save();
+ if(currentPage==="favorites")renderCards(favorites);
 }
-document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>{
- view=b.dataset.view;selectedPlaylist=null;
- $("hero").classList.toggle("hidden",view!=="home");
- $("playlistArea").classList.toggle("hidden",view!=="playlists");
- if(view==="home")showHome();
- else if(view==="search"){
+function add(id){
+ const s=results.find(x=>x.id===id);
+ if(!s)return;
+ if(!library.some(x=>x.id===id))library.push(s);
+ save();alert("Guardada en tu biblioteca.");
+}
+function show(page){
+ currentPage=page;setActive(page);
+ $("playerBox").style.display="none";
+ if(page==="home"){
+  $("heading").textContent="Tu música. Tu mundo.";
+  $("description").textContent="Encuentra artistas, explora canciones y crea tu biblioteca.";
+  $("content").innerHTML='<h2>Bienvenido a VYBORA</h2><div class="empty">Busca un artista o canción en el buscador.</div>';
+ }else if(page==="search"){
   $("heading").textContent="Buscar música";
-  $("status").textContent="Escribe un artista o canción y pulsa Buscar.";
-  $("results").innerHTML="";
-  setNav();
- }else if(view==="favorites"){
-  $("heading").textContent="Tus favoritos";render();setNav();
- }else if(view==="playlists"){
-  $("heading").textContent="Tus playlists";renderPlaylists();render();setNav();
+  $("description").textContent="Escribe el nombre de una canción o artista.";
+  $("content").innerHTML='<div class="empty">Usa el buscador de arriba para encontrar música.</div>';
+ }else if(page==="favorites"){
+  $("heading").textContent="Tus favoritos";
+  $("description").textContent="Tu colección de canciones favoritas.";
+  renderCards(favorites);
+ }else{
+  $("heading").textContent="Mi biblioteca";
+  $("description").textContent="Tus canciones guardadas.";
+  renderCards(library);
  }
-}));
-$("searchBtn").addEventListener("click",showSearch);
-$("query").addEventListener("keydown",e=>{if(e.key==="Enter")showSearch()});
-$("discover").addEventListener("click",()=>{
- $("query").focus();view="search";setNav();
-});
-$("results").addEventListener("click",e=>{
- const b=e.target.closest("button");if(!b)return;
- if(b.dataset.like){
-  favorites=favorites.includes(b.dataset.like)?favorites.filter(x=>x!==b.dataset.like):[...favorites,b.dataset.like];
-  write(STORE.favorites,favorites);render();
- }
- if(b.dataset.listen){
-  const id=b.dataset.listen;
-  const t=results.find(x=>x.id===id);
-  if(t)playVideo(t.id,t.title,t.channel);
- }
- if(b.dataset.add){
-  if(!playlists.length){
-   const name=prompt("Nombre de tu nueva playlist:");
-   if(!name||!name.trim())return;
-   playlists.push({id:String(Date.now()),name:name.trim(),songs:[]});
-  }
-  let p=playlists.find(x=>x.id===selectedPlaylist);
-  if(!p&&playlists.length===1)p=playlists[0];
-  if(!p){
-   const name=prompt("¿A qué playlist la añado?\n"+playlists.map(x=>x.name).join("\n"));
-   p=playlists.find(x=>x.name.toLowerCase()===String(name).toLowerCase());
-  }
-  if(p&&!p.songs.includes(b.dataset.add))p.songs.push(b.dataset.add);
-  write(STORE.playlists,playlists);renderPlaylists();
- }
-});
-$("create").addEventListener("click",()=>{
- const name=$("playlistName").value.trim();if(!name)return;
- playlists.push({id:String(Date.now()),name,songs:[]});
- write(STORE.playlists,playlists);$("playlistName").value="";renderPlaylists();
-});
-$("playlistList").addEventListener("click",e=>{
- const b=e.target.closest("button");if(!b)return;
- if(b.dataset.remove){
-  playlists=playlists.filter(p=>p.id!==b.dataset.remove);
-  if(selectedPlaylist===b.dataset.remove)selectedPlaylist=null;
-  write(STORE.playlists,playlists);renderPlaylists();render();
- }else if(b.dataset.playlist){
-  selectedPlaylist=b.dataset.playlist;view="playlists";
-  const p=playlists.find(x=>x.id===selectedPlaylist);
-  $("heading").textContent=p?p.name:"Playlist";
-  render();setNav();
- }
-});
-$("openPlayer").addEventListener("click",()=>{
- if(playing)$("playerWrap").scrollIntoView({behavior:"smooth"});
- else showSearch();
-});
-showHome();
+}
+$("searchBtn").onclick=search;
+$("query").addEventListener("keydown",e=>{if(e.key==="Enter")search()});
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.page));
 </script>
 </body>
 </html>
