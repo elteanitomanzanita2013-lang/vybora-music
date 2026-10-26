@@ -3,422 +3,151 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VYBORA — Music</title>
 <style>
-:root {
-  --bg: #080811;
-  --panel: #11111f;
-  --purple: #a855f7;
-  --blue: #38bdf8;
-  --text: #f5f3ff;
-  --muted: #9292ad;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-}
-button, input { font: inherit; }
-button { cursor: pointer; }
-.app { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 230px;
-  padding: 28px 18px;
-  background: #0c0c17;
-  border-right: 1px solid #222235;
-  flex-shrink: 0;
-}
-.logo {
-  font-size: 27px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  background: linear-gradient(90deg,var(--purple),var(--blue));
-  color: transparent;
-  background-clip: text;
-}
-.tagline { color: var(--muted); font-size: 11px; margin: 6px 0 35px; }
-.nav-title { color: #77778f; font-size: 11px; margin: 25px 10px 12px; }
-.nav-btn {
-  width: 100%; text-align: left; border: 0;
-  background: transparent; color: #b6b6cc;
-  padding: 13px 12px; border-radius: 10px; margin: 3px 0;
-}
-.nav-btn:hover, .nav-btn.active { background: #211735; color: white; }
-.main { flex: 1; min-width: 0; padding: 28px; padding-bottom: 120px; }
-.topbar { display: flex; align-items: center; gap: 14px; }
-.search {
-  width: min(100%, 440px); padding: 13px 17px;
-  border-radius: 30px; border: 1px solid #292940;
-  background: var(--panel); color: white; outline: none;
-}
-.search:focus { border-color: var(--purple); }
-.profile {
-  margin-left: auto; background: #211735; padding: 10px 14px;
-  border-radius: 25px; font-size: 13px;
-}
-.hero {
-  margin-top: 30px; padding: 35px; border-radius: 22px;
-  background:
-    radial-gradient(ellipse at 85% 20%,#5630a5 0,transparent 38%),
-    radial-gradient(ellipse at 70% 100%,#123e63 0,transparent 45%),
-    linear-gradient(120deg,#191329,#10101d);
-  border: 1px solid #33254c;
-  position: relative; overflow: hidden;
-}
-.eyebrow { color: #c4a4ff; font-size: 12px; letter-spacing: 3px; }
-.hero h1 { font-size: clamp(30px,5vw,52px); margin: 16px 0 10px; }
-.hero p { color: #c2bfd7; max-width: 420px; line-height: 1.6; }
-.primary {
-  border: 0; border-radius: 25px; padding: 13px 22px;
-  color: white; font-weight: bold;
-  background: linear-gradient(100deg,var(--purple),#6548ec);
-  box-shadow: 0 0 25px #8b5cf644;
-}
-.section-head { display: flex; align-items: center; justify-content: space-between; margin: 34px 0 18px; }
-.section-head h2 { margin: 0; font-size: 21px; }
-.muted { color: var(--muted); font-size: 12px; }
-.grid {
-  display: grid; grid-template-columns: repeat(auto-fill,minmax(155px,1fr));
-  gap: 17px;
-}
-.card {
-  background: var(--panel); padding: 13px; border-radius: 15px;
-  border: 1px solid #202034; min-width: 0;
-  transition: transform .2s,border-color .2s;
-}
-.card:hover { transform: translateY(-4px); border-color: #7542ad; }
-.cover {
-  aspect-ratio: 1; border-radius: 11px; display: grid;
-  place-items: center; font-size: 45px; margin-bottom: 13px;
-  background: linear-gradient(135deg,#35185e,#1b5472);
-}
-.cover.c2 { background: linear-gradient(135deg,#6c2557,#251c55); }
-.cover.c3 { background: linear-gradient(135deg,#124e61,#342067); }
-.cover.c4 { background: linear-gradient(135deg,#5c3719,#3b205d); }
-.cover.c5 { background: linear-gradient(135deg,#263d68,#632d74); }
-.track-title { font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.track-artist { color: var(--muted); font-size: 12px; margin-top: 6px; }
-.card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 13px; }
-.small-btn {
-  border: 0; color: #c7c1da; background: #252238;
-  width: 33px; height: 33px; border-radius: 50%;
-}
-.small-btn:hover { color: white; background: #713cc1; }
-.heart { color: #a5a2ba; font-size: 20px; background: transparent; border: 0; }
-.heart.liked { color: #fb7185; }
-.empty { color: var(--muted); padding: 25px 0; }
-.player {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  min-height: 88px; padding: 13px 24px;
-  display: grid; grid-template-columns: 1fr 1.3fr 1fr;
-  gap: 20px; align-items: center;
-  background: #10101bf2; border-top: 1px solid #29293c;
-  backdrop-filter: blur(18px); z-index: 10;
-}
-.now { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.mini-cover { width: 49px; height: 49px; border-radius: 9px; background: linear-gradient(135deg,#8b5cf6,#0ea5e9); display: grid; place-items: center; font-size: 24px; flex-shrink: 0; }
-.now-info { min-width: 0; }
-.now-info strong, .now-info span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.now-info span { color: var(--muted); font-size: 12px; margin-top: 5px; }
-.controls { text-align: center; }
-.control-buttons { display: flex; justify-content: center; align-items: center; gap: 18px; }
-.control-buttons button { border: 0; color: #d9d7e8; background: transparent; font-size: 20px; }
-.control-buttons .play { background: white; color: #12121b; width: 38px; height: 38px; border-radius: 50%; }
-.progress { display: flex; gap: 10px; align-items: center; font-size: 10px; color: var(--muted); margin-top: 8px; }
-input[type=range] { accent-color: var(--purple); cursor: pointer; min-width: 0; }
-#seek { width: 100%; }
-.volume { display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
-#volume { width: 100px; max-width: 60%; }
-.notice { color: #b4a4d9; font-size: 12px; line-height: 1.5; margin-top: 15px; }
-@media(max-width:760px) {
-  .sidebar { width: 70px; padding: 22px 8px; }
-  .logo { font-size: 16px; letter-spacing: 0; text-align: center; }
-  .tagline, .nav-title, .nav-label { display: none; }
-  .nav-btn { text-align: center; font-size: 19px; padding: 13px 2px; }
-  .main { padding: 18px 13px 120px; }
-  .hero { padding: 25px 20px; }
-  .grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
-  .player { grid-template-columns: 1fr auto; gap: 8px; padding: 10px 12px; }
-  .controls { grid-column: 1 / -1; grid-row: 2; }
-  .volume { display: none; }
-  .mini-cover { width: 39px; height: 39px; }
-  .now-info strong { font-size: 12px; }
-  .now-info span { font-size: 11px; }
-}
+*{box-sizing:border-box}
+body{margin:0;background:#090910;color:#fff;font-family:Arial,sans-serif}
+header{padding:24px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #252238}
+.logo{font-size:28px;font-weight:900;letter-spacing:4px;background:linear-gradient(90deg,#b15cff,#42c9ff);color:transparent;background-clip:text}
+header span{color:#aaa;font-size:12px}
+main{max-width:1150px;margin:auto;padding:30px 22px 140px}
+.hero{padding:35px;border:1px solid #38234f;border-radius:22px;background:radial-gradient(ellipse at 90% 20%,#512b85,transparent 45%),linear-gradient(120deg,#191329,#10101d)}
+.hero small{color:#c5a0ff;letter-spacing:3px}
+h1{font-size:clamp(32px,5vw,54px);margin:15px 0}
+.hero p{color:#c5c1d7}
+.search{display:flex;gap:10px;margin:28px 0}
+input{min-width:0}
+#query{flex:1;background:#151522;border:1px solid #38334d;color:white;border-radius:30px;padding:15px 20px;outline:none}
+#query:focus{border-color:#b15cff}
+button{cursor:pointer}
+#searchBtn{border:0;border-radius:30px;padding:0 22px;color:white;background:linear-gradient(90deg,#9149df,#4268ef);font-weight:bold}
+h2{font-size:22px}
+#status{color:#aaa;font-size:14px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:17px}
+.card{padding:12px;background:#141420;border:1px solid #29263c;border-radius:15px;min-width:0}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#28213a}
+.name{font-weight:bold;margin-top:12px;line-height:1.4}
+.artist{color:#aaa;font-size:13px;margin-top:5px;min-height:30px}
+.actions{display:flex;align-items:center;gap:8px;margin-top:12px}
+.play{border:0;border-radius:20px;background:#a855f7;color:white;padding:9px 13px}
+.store{color:#9ddcff;font-size:12px;text-decoration:none}
+.player{position:fixed;bottom:0;left:0;right:0;padding:14px 20px;background:#11111bf5;border-top:1px solid #343044;display:flex;align-items:center;gap:14px}
+#now{flex:1;min-width:0}
+#now strong,#now small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#now small{color:#aaa;margin-top:5px}
+#toggle{width:44px;height:44px;border:0;border-radius:50%;background:white;color:#111;font-size:18px}
+#sound{width:90px;max-width:20vw;accent-color:#b15cff}
+audio{display:none}
+@media(max-width:520px){header{padding:20px}header span{display:none}.hero{padding:23px}.search{gap:7px}#searchBtn{padding:0 14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.player{gap:10px;padding:12px}#sound{display:none}}
 </style>
 </head>
 <body>
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo">VYBORA</div>
-    <div class="tagline">FEEL EVERY FREQUENCY</div>
-    <div class="nav-title">MENÚ</div>
-    <button class="nav-btn active" data-view="home">⌂ <span class="nav-label">Inicio</span></button>
-    <button class="nav-btn" data-view="search">⌕ <span class="nav-label">Buscar</span></button>
-    <div class="nav-title">TU MÚSICA</div>
-    <button class="nav-btn" data-view="favorites">♡ <span class="nav-label">Favoritos</span></button>
-    <button class="nav-btn" data-view="all">♫ <span class="nav-label">Biblioteca</span></button>
-  </aside>
-
-  <main class="main">
-    <div class="topbar">
-      <input class="search" id="search" placeholder="Buscar canciones o artistas..." aria-label="Buscar música">
-      <div class="profile">✦ VYBORA</div>
-    </div>
-
-    <section class="hero" id="hero">
-      <div class="eyebrow">TU UNIVERSO MUSICAL</div>
-      <h1>La música se<br> siente diferente.</h1>
-      <p>Descubre nuevos sonidos, encuentra tus favoritos y crea tu propio universo musical.</p>
-      <button class="primary" id="explore">▶ Explorar música</button>
-    </section>
-
-    <div class="section-head">
-      <h2 id="section-title">Para descubrir</h2>
-      <span class="muted" id="count"></span>
-    </div>
-    <div class="grid" id="tracks"></div>
-    <p class="notice">Demo musical: las pistas de prueba son audios instrumentales públicos. Esta versión no incluye todavía un catálogo de canciones comerciales.</p>
-  </main>
-</div>
-
+<header>
+  <div class="logo">VYBORA</div>
+  <span>FEEL EVERY FREQUENCY</span>
+</header>
+<main>
+  <section class="hero">
+    <small>YOUR MUSIC UNIVERSE</small>
+    <h1>Encuentra tu<br>próxima canción.</h1>
+    <p>Busca artistas reales, descubre sus álbumes y escucha los avances disponibles.</p>
+  </section>
+  <div class="search">
+    <input id="query" placeholder="Busca Bad Bunny, Milo J, Feid..." autocomplete="off">
+    <button id="searchBtn">BUSCAR</button>
+  </div>
+  <h2 id="heading">Descubre música</h2>
+  <div id="status">Buscando música popular...</div>
+  <div class="grid" id="results"></div>
+</main>
 <div class="player">
-  <div class="now">
-    <div class="mini-cover">♫</div>
-    <div class="now-info">
-      <strong id="now-title">Elige una canción</strong>
-      <span id="now-artist">VYBORA Music</span>
-    </div>
-    <button class="heart" id="now-heart" title="Añadir a favoritos">♡</button>
-  </div>
-  <div class="controls">
-    <div class="control-buttons">
-      <button id="prev" title="Anterior">⏮</button>
-      <button class="play" id="play" title="Reproducir">▶</button>
-      <button id="next" title="Siguiente">⏭</button>
-    </div>
-    <div class="progress">
-      <span id="current-time">0:00</span>
-      <input id="seek" type="range" min="0" max="100" value="0">
-      <span id="duration">0:00</span>
-    </div>
-  </div>
-  <div class="volume">
-    <span>🔊</span>
-    <input id="volume" type="range" min="0" max="1" step="0.01" value="0.7" aria-label="Volumen">
-  </div>
+  <div id="now"><strong>VYBORA MUSIC</strong><small>Elige una canción</small></div>
+  <button id="toggle" aria-label="Reproducir">▶</button>
+  <input id="sound" type="range" min="0" max="1" step=".05" value=".7" aria-label="Volumen">
 </div>
-
-<audio id="audio" preload="metadata"></audio>
-
+<audio id="audio"></audio>
 <script>
-const songs = [
-  {
-    title: "Creative Minds",
-    artist: "Benjamin Tissot",
-    emoji: "🌌", cover: "c1",
-    url: "https://www.bensound.com/bensound-music/bensound-creativeminds.mp3"
-  },
-  {
-    title: "Energy",
-    artist: "Benjamin Tissot",
-    emoji: "⚡", cover: "c2",
-    url: "https://www.bensound.com/bensound-music/bensound-energy.mp3"
-  },
-  {
-    title: "A New Beginning",
-    artist: "Benjamin Tissot",
-    emoji: "🌅", cover: "c3",
-    url: "https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3"
-  },
-  {
-    title: "Adventure",
-    artist: "Benjamin Tissot",
-    emoji: "🚀", cover: "c4",
-    url: "https://www.bensound.com/bensound-music/bensound-adventure.mp3"
-  },
-  {
-    title: "Dreams",
-    artist: "Benjamin Tissot",
-    emoji: "💜", cover: "c5",
-    url: "https://www.bensound.com/bensound-music/bensound-dreams.mp3"
+const $=id=>document.getElementById(id);
+const audio=$("audio");
+let tracks=[];
+let selected=null;
+
+async function searchMusic(term){
+  if(!term.trim()) return;
+  $("heading").textContent="Resultados para: "+term;
+  $("status").textContent="Buscando canciones...";
+  $("results").innerHTML="";
+  $("searchBtn").disabled=true;
+  try{
+    const url="https://itunes.apple.com/search?term="+encodeURIComponent(term)+"&entity=song&limit=36&country=PE";
+    const response=await fetch(url);
+    if(!response.ok) throw new Error("Error de conexión");
+    const data=await response.json();
+    tracks=data.results||[];
+    if(!tracks.length){
+      $("status").textContent="No encontramos resultados. Prueba otro artista.";
+      return;
+    }
+    $("status").textContent=tracks.length+" canciones encontradas · Avances proporcionados por iTunes";
+    $("results").innerHTML=tracks.map((t,i)=>`
+      <article class="card">
+        <img src="${t.artworkUrl100||""}" alt="Portada de ${escapeHTML(t.trackName)}" loading="lazy">
+        <div class="name">${escapeHTML(t.trackName||"Canción")}</div>
+        <div class="artist">${escapeHTML(t.artistName||"Artista desconocido")}<br>${escapeHTML(t.collectionName||"")}</div>
+        <div class="actions">
+          <button class="play" data-play="${i}">${t.previewUrl?"▶ Escuchar":"Ver canción"}</button>
+          <a class="store" href="${t.trackViewUrl||"#"}" target="_blank" rel="noopener">iTunes ↗</a>
+        </div>
+      </article>`).join("");
+  }catch(e){
+    $("status").textContent="No se pudo conectar al catálogo. Comprueba Internet e inténtalo otra vez.";
+  }finally{
+    $("searchBtn").disabled=false;
   }
-];
-
-const audio = document.getElementById("audio");
-const tracksEl = document.getElementById("tracks");
-const search = document.getElementById("search");
-let current = -1;
-let view = "home";
-let favorites = [];
-let filtered = [...songs];
-
-function formatTime(seconds) {
-  if (!Number.isFinite(seconds)) return "0:00";
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60).toString().padStart(2,"0");
-  return `${m}:${s}`;
 }
-
-function render() {
-  const query = search.value.trim().toLowerCase();
-  filtered = songs.filter((song, index) => {
-    const matches = `${song.title} ${song.artist}`.toLowerCase().includes(query);
-    if (view === "favorites") return matches && favorites.includes(index);
-    return matches;
-  });
-
-  document.getElementById("section-title").textContent =
-    view === "favorites" ? "Tus favoritos" :
-    view === "search" ? "Resultados de búsqueda" :
-    view === "all" ? "Biblioteca musical" : "Para descubrir";
-
-  document.getElementById("count").textContent = `${filtered.length} canciones`;
-
-  if (!filtered.length) {
-    tracksEl.innerHTML = '<div class="empty">No encontramos canciones. Prueba otra búsqueda.</div>';
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+$("searchBtn").addEventListener("click",()=>searchMusic($("query").value));
+$("query").addEventListener("keydown",e=>{
+  if(e.key==="Enter")searchMusic($("query").value);
+});
+$("results").addEventListener("click",e=>{
+  const btn=e.target.closest("[data-play]");
+  if(!btn)return;
+  const t=tracks[Number(btn.dataset.play)];
+  if(!t)return;
+  if(!t.previewUrl){
+    if(t.trackViewUrl)window.open(t.trackViewUrl,"_blank","noopener");
     return;
   }
-
-  tracksEl.innerHTML = filtered.map(song => {
-    const index = songs.indexOf(song);
-    const liked = favorites.includes(index);
-    return `
-      <article class="card">
-        <div class="cover ${song.cover}">${song.emoji}</div>
-        <div class="track-title">${song.title}</div>
-        <div class="track-artist">${song.artist}</div>
-        <div class="card-bottom">
-          <button class="small-btn" data-play="${index}" title="Reproducir">▶</button>
-          <button class="heart ${liked ? "liked" : ""}" data-heart="${index}" title="Favorito">${liked ? "♥" : "♡"}</button>
-        </div>
-      </article>`;
-  }).join("");
-}
-
-function loadSong(index, autoplay = true) {
-  if (index < 0 || index >= songs.length) return;
-  current = index;
-  const song = songs[current];
-  audio.src = song.url;
-  document.getElementById("now-title").textContent = song.title;
-  document.getElementById("now-artist").textContent = song.artist;
-  updateNowHeart();
-  document.getElementById("current-time").textContent = "0:00";
-  document.getElementById("duration").textContent = "0:00";
-  document.getElementById("seek").value = 0;
-  if (autoplay) {
-    audio.play().then(updatePlayButton).catch(() => {
-      updatePlayButton();
-      alert("No se pudo reproducir esta pista. Puede que la fuente esté temporalmente fuera de servicio.");
-    });
+  if(selected===t.trackId&&!audio.paused){
+    audio.pause();
+    return;
   }
-}
-
-function updatePlayButton() {
-  document.getElementById("play").textContent = audio.paused ? "▶" : "❚❚";
-}
-
-function updateNowHeart() {
-  const liked = favorites.includes(current);
-  document.getElementById("now-heart").textContent = liked ? "♥" : "♡";
-  document.getElementById("now-heart").classList.toggle("liked", liked);
-}
-
-function toggleFavorite(index) {
-  if (favorites.includes(index)) {
-    favorites = favorites.filter(i => i !== index);
-  } else {
-    favorites.push(index);
-  }
-  try { localStorage.setItem("vybora-favorites", JSON.stringify(favorites)); } catch(e) {}
-  render();
-  updateNowHeart();
-}
-
-try {
-  favorites = JSON.parse(localStorage.getItem("vybora-favorites") || "[]")
-    .filter(i => Number.isInteger(i) && i >= 0 && i < songs.length);
-} catch(e) { favorites = []; }
-
-tracksEl.addEventListener("click", event => {
-  const playButton = event.target.closest("[data-play]");
-  const heartButton = event.target.closest("[data-heart]");
-  if (playButton) loadSong(Number(playButton.dataset.play));
-  if (heartButton) toggleFavorite(Number(heartButton.dataset.heart));
-});
-
-document.querySelectorAll("[data-view]").forEach(button => {
-  button.addEventListener("click", () => {
-    view = button.dataset.view;
-    document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b === button));
-    if (view === "search") search.focus();
-    render();
+  selected=t.trackId;
+  audio.src=t.previewUrl;
+  audio.play().then(()=>{
+    $("now").innerHTML=`<strong>${escapeHTML(t.trackName)}</strong><small>${escapeHTML(t.artistName)} · Avance de iTunes</small>`;
+    $("toggle").textContent="Ⅱ";
+  }).catch(()=>{
+    $("status").textContent="No se pudo reproducir este avance. Prueba otra canción.";
   });
 });
-
-search.addEventListener("input", () => {
-  if (search.value.trim()) view = "search";
-  render();
+$("toggle").addEventListener("click",()=>{
+  if(!audio.src){
+    $("query").focus();
+    $("status").textContent="Primero busca y elige una canción.";
+  }else if(audio.paused){
+    audio.play().catch(()=>{});
+  }else audio.pause();
 });
-
-document.getElementById("explore").addEventListener("click", () => {
-  view = "all";
-  document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === "all"));
-  render();
-  document.getElementById("section-title").scrollIntoView({ behavior: "smooth", block: "start" });
-});
-
-document.getElementById("play").addEventListener("click", () => {
-  if (current === -1) {
-    loadSong(0);
-  } else if (audio.paused) {
-    audio.play().then(updatePlayButton).catch(() => alert("No se pudo iniciar la reproducción."));
-  } else {
-    audio.pause();
-    updatePlayButton();
-  }
-});
-
-document.getElementById("prev").addEventListener("click", () => {
-  loadSong(current <= 0 ? songs.length - 1 : current - 1);
-});
-
-document.getElementById("next").addEventListener("click", () => {
-  loadSong(current >= songs.length - 1 ? 0 : current + 1);
-});
-
-document.getElementById("now-heart").addEventListener("click", () => {
-  if (current !== -1) toggleFavorite(current);
-});
-
-audio.addEventListener("play", updatePlayButton);
-audio.addEventListener("pause", updatePlayButton);
-audio.addEventListener("ended", () => loadSong((current + 1) % songs.length));
-audio.addEventListener("loadedmetadata", () => {
-  document.getElementById("duration").textContent = formatTime(audio.duration);
-});
-audio.addEventListener("timeupdate", () => {
-  document.getElementById("current-time").textContent = formatTime(audio.currentTime);
-  if (Number.isFinite(audio.duration) && audio.duration > 0) {
-    document.getElementById("seek").value = audio.currentTime / audio.duration * 100;
-  }
-});
-
-document.getElementById("seek").addEventListener("input", event => {
-  if (Number.isFinite(audio.duration)) audio.currentTime = Number(event.target.value) / 100 * audio.duration;
-});
-
-document.getElementById("volume").addEventListener("input", event => {
-  audio.volume = Number(event.target.value);
-});
-
-audio.volume = 0.7;
-render();
+audio.addEventListener("play",()=>$("toggle").textContent="Ⅱ");
+audio.addEventListener("pause",()=>$("toggle").textContent="▶");
+$("sound").addEventListener("input",e=>audio.volume=Number(e.target.value));
+audio.volume=.7;
+searchMusic("Bad Bunny");
 </script>
 </body>
 </html>
